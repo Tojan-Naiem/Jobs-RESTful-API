@@ -1,25 +1,34 @@
-package org.example.joblisting.model;
+package org.example.jobsrestfulapi.model;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Document(collection = "JobPost")
 public class Post {
+    @Transient
+    public static final String SEQUENCE_NAME = "post_sequence";
     @Id
     private String id;
     private String profile;
     private String desc;
     private int exp;
-    private List<String> teach=new ArrayList<>();
+    private List<String> techs;
 
-    public Post(String profile,String desc,int exp,List<String>teach) {
+    public Post(String profile,String desc,int exp,List<String> techs) {
     this.profile=profile;
     this.desc=desc;
     this.exp=exp;
-    this.teach=teach;
+    this.techs=techs;
+    }
+    public Post(String id,String profile,String desc,int exp,List<String> techs) {
+        this.id=id;
+        this.profile=profile;
+        this.desc=desc;
+        this.exp=exp;
+        this.techs=techs;
     }
     public Post() {
 
@@ -57,12 +66,12 @@ public class Post {
         this.exp = exp;
     }
 
-    public List<String> getTeach() {
-        return teach;
+    public List<String> getTechs() {
+        return techs;
     }
 
-    public void setTeach(List<String> teach) {
-        this.teach = teach;
+    public void setTechs(List<String> techs) {
+        this.techs = this.techs;
     }
 
     @Override
@@ -71,7 +80,7 @@ public class Post {
                 "profile='" + profile + '\'' +
                 ", desc='" + desc + '\'' +
                 ", exp=" + exp +
-                ", teach=" + teach +
+                ", teach=" +techs +
                 '}';
     }
 }

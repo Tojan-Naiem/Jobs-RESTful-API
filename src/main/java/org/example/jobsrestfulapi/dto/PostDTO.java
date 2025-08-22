@@ -1,4 +1,4 @@
-package org.example.joblisting.dto;
+package org.example.jobsrestfulapi.dto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,13 +8,13 @@ public class PostDTO {
     private String profile;
     private String desc;
     private int exp;
-    private List<String> teach=new ArrayList<>();
+    private List<String> techs;
 
-    public PostDTO(String profile,String desc,int exp,List<String>teach) {
+    public PostDTO(String profile,String desc,int exp,List<String> techs) {
         this.profile=profile;
         this.desc=desc;
         this.exp=exp;
-        this.teach=teach;
+        this.techs=techs;
     }
     public PostDTO() {
 
@@ -44,12 +44,12 @@ public class PostDTO {
         this.exp = exp;
     }
 
-    public List<String> getTeach() {
-        return teach;
+    public List<String> getTechs() {
+        return techs;
     }
 
-    public void setTeach(List<String> teach) {
-        this.teach = teach;
+    public void setTechs(List<String> techs) {
+        this.techs = techs;
     }
 
     @Override
@@ -58,7 +58,7 @@ public class PostDTO {
                 "profile='" + profile + '\'' +
                 ", desc='" + desc + '\'' +
                 ", exp=" + exp +
-                ", teach=" + teach +
+                ", teach=" + techs +
                 '}';
     }
 }

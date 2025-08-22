@@ -1,7 +1,7 @@
-package org.example.joblisting.Controller;
+package org.example.jobsrestfulapi.Controller;
 
-import org.example.joblisting.dto.PostDTO;
-import org.example.joblisting.service.PostService;
+import org.example.jobsrestfulapi.dto.PostDTO;
+import org.example.jobsrestfulapi.service.PostService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
