@@ -4,8 +4,9 @@ import org.example.joblisting.exceptions.ResourcesNotFound;
 import org.example.jobsrestfulapi.dto.PostDTO;
 import org.example.jobsrestfulapi.model.Post;
 import org.example.jobsrestfulapi.repository.PostRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.example.jobsrestfulapi.SequenceGeneratorService;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,20 +15,17 @@ import java.util.stream.Collectors;
 public class PostService {
 
     private PostRepository postRepository;
-    private SequenceGeneratorService sequenceGeneratorService;
-    public PostService(PostRepository postRepository,SequenceGeneratorService sequenceGeneratorService){
+    public PostService(PostRepository postRepository ){
         this.postRepository=postRepository;
-        this.sequenceGeneratorService=sequenceGeneratorService;
     }
-    public List<PostDTO> getAllPosts(){
-        return this.postRepository.findAll()
-                .stream()
+    public Page<PostDTO> getAllPosts(Pageable pageable){
+        return this.postRepository.findAll(pageable)
                 .map(s->new PostDTO(
                         s.getProfile(),
                         s.getDesc(),
                         s.getExp(),
-                        s.getTechs()))
-                .collect(Collectors.toList());
+                        s.getTechs())
+                );
     }
     public PostDTO getPostById(String post_id){
         Post post =this.postRepository.findById(post_id)
@@ -35,14 +33,11 @@ public class PostService {
                 });
         return new PostDTO(post.getProfile(),post.getDesc(),post.getExp(),post.getTechs());
     }
-    public void addPost(PostDTO postDTO){
-        System.out.println("Received DTO: " + postDTO);
-        System.out.println("Teachs field: " + postDTO.getTechs());
-        System.out.println("Teachs type: " + (postDTO.getTechs() != null ? postDTO.getTechs().getClass() : "null"));
-        Post post=new Post(sequenceGeneratorService.generateSequence("post_sequence"),postDTO.getProfile(),postDTO.getDesc(),postDTO.getExp(),postDTO.getTechs());
+    public String addPost(PostDTO postDTO){
+
+        Post post=new Post(postDTO.getProfile(),postDTO.getDesc(),postDTO.getExp(),postDTO.getTechs());
         this.postRepository.save(post);
-        System.out.println("Post object before save: " + post);
-        this.postRepository.save(post);
+        return post.getId();
     }
     public void updatePost(String post_id,PostDTO postDTO){
         Post post =this.postRepository.findById(post_id)

@@ -1,9 +1,16 @@
 package org.example.jobsrestfulapi.Controller;
 
 import org.example.jobsrestfulapi.dto.PostDTO;
+import org.example.jobsrestfulapi.model.Post;
 import org.example.jobsrestfulapi.service.PostService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping("/api/v1/post")
@@ -14,8 +21,13 @@ public class PostController {
     }
 
     @GetMapping("/")
-    public ResponseEntity getPosts(){
-        return ResponseEntity.ok(this.postService.getAllPosts());
+    public ResponseEntity getPosts(
+            @RequestParam(value="page",defaultValue = "0") int page,
+            @RequestParam(value = "size",defaultValue = "5") int size
+    ){
+        Pageable pageable =PageRequest.of(page,size);
+        Page<PostDTO>posts=postService.getAllPosts(pageable);
+        return ResponseEntity.ok(posts);
     }
     @GetMapping("/{id}")
     public ResponseEntity getPostById(@PathVariable(value = "id") String post_id){
@@ -23,8 +35,13 @@ public class PostController {
     }
     @PostMapping("/")
     public ResponseEntity createPost(@RequestBody PostDTO postDTO){
-        this.postService.addPost(postDTO);
-        return ResponseEntity.ok("Successfully created new post");
+        String id =this.postService.addPost(postDTO);
+        URI location= ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("{id}")
+                .buildAndExpand(id)
+                .toUri();
+        return ResponseEntity.created(location)
+                .build();
     }
     @DeleteMapping("/{id}")
     public ResponseEntity deletePost(@PathVariable(value="id") String post_id)

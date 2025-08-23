@@ -8,8 +8,7 @@ import java.util.List;
 
 @Document(collection = "JobPost")
 public class Post {
-    @Transient
-    public static final String SEQUENCE_NAME = "post_sequence";
+
     @Id
     private String id;
     private String profile;
