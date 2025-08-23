@@ -1,7 +1,6 @@
-package org.example.jobsrestfulapi.Controller;
+package org.example.jobsrestfulapi.controller;
 
 import org.example.jobsrestfulapi.dto.PostDTO;
-import org.example.jobsrestfulapi.model.Post;
 import org.example.jobsrestfulapi.service.PostService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
