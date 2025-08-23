@@ -23,8 +23,15 @@ public class PostController {
     @GetMapping("/")
     public ResponseEntity getPosts(
             @RequestParam(value="page",defaultValue = "0") int page,
-            @RequestParam(value = "size",defaultValue = "5") int size
+            @RequestParam(value = "size",defaultValue = "5") int size,
+            @RequestParam(value = "text",required = false)String text
     ){
+        if(text!=null&&!text.isEmpty()){
+            Pageable pageable =PageRequest.of(page,size);
+            Page<PostDTO>postDTOS=postService.searchByText(text,pageable);
+            return ResponseEntity.ok(postDTOS);
+
+        }
         Pageable pageable =PageRequest.of(page,size);
         Page<PostDTO>posts=postService.getAllPosts(pageable);
         return ResponseEntity.ok(posts);
