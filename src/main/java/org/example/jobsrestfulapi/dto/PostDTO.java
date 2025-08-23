@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PostDTO {
-
     private String profile;
     private String desc;
     private int exp;
