@@ -1,0 +1,78 @@
+package org.example.jobsrestfulapi.dto;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Field;
+
+public class CompanyDTO {
+    private String name;
+    private String desc;
+    private String city;
+    private String url;
+    private String image;
+
+    public CompanyDTO(){
+
+    }
+    public CompanyDTO(String name, String desc,
+                   String city, String url, String image){
+        this.name = name;
+        this.desc=desc;
+        this.city=city;
+        this.url=url;
+        this.image=image;
+    }
+
+
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    @Override
+    public String toString() {
+        return "Company{" +
+                " name='" + name + '\'' +
+                ", desc='" + desc + '\'' +
+                ", city='" + city + '\'' +
+                ", url='" + url + '\'' +
+                ", image='" + image + '\'' +
+                '}';
+    }
+}
