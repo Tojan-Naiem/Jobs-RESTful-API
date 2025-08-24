@@ -11,5 +11,5 @@ import java.util.List;
 
 public interface CompanyService {
     public void addCompany(CompanyDTO companyDTO, MultipartFile file) throws IOException;
-    public Page<CompanyDTO> getCompanies(Pageable pageable);
+    public Page<CompanyDTO> getCompanies(Pageable pageable,String filterKey,String filterValue);
 }

@@ -1,5 +1,6 @@
 package org.example.jobsrestfulapi.controller;
 
+import org.apache.tomcat.util.compat.Jre21Compat;
 import org.example.jobsrestfulapi.dto.CompanyDTO;
 import org.example.jobsrestfulapi.service.CompanyService;
 import org.example.jobsrestfulapi.service.CompanyServiceImp;
@@ -26,10 +27,13 @@ public class CompanyController {
     @GetMapping("/")
     public ResponseEntity getCompanies(
             @RequestParam(value = "page",defaultValue = "0") int page,
-            @RequestParam(value = "size",defaultValue = "5") int size
+            @RequestParam(value = "size",defaultValue = "5") int size,
+            @RequestParam(required = false) String filterKey,
+            @RequestParam(required = false) String filterValue
     ){
+
         Pageable pageable= PageRequest.of(page,size);
-        Page<CompanyDTO> companyDTOS=this.companyService.getCompanies(pageable);
+        Page<CompanyDTO> companyDTOS=this.companyService.getCompanies(pageable,filterKey,filterValue);
         return ResponseEntity.ok(companyDTOS);
     }
 
@@ -51,6 +55,7 @@ public class CompanyController {
 
 
     }
+
 
 
 

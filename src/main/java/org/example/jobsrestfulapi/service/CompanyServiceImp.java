@@ -21,9 +21,25 @@ public class CompanyServiceImp implements CompanyService {
     public CompanyServiceImp(CompanyRepository componyRepository){
         this.componyRepository=componyRepository;
     }
-    public Page<CompanyDTO> getCompanies(Pageable pageable){
+    //{{Jurl}}/company/?filterKey=name&filterValue=exalt
+    public Page<CompanyDTO> getCompanies(Pageable pageable,String filterKey,String filterValue){
+        Page<Company> companies;
+        if(filterKey!=null&&filterValue!=null&&!filterKey.isEmpty()&&!filterValue.isEmpty()){
+         switch (filterKey){
+             case "name":
+                 companies=this.componyRepository.findByNameContainingIgnoreCase(filterValue,pageable);
+                 break;
+             case "city":
+                 companies=this.componyRepository.findByCityContainingIgnoreCase(filterValue,pageable);
+                 break;
+             default:
+                 companies=this.componyRepository.findAll(pageable);
+                 break;
+         }
+        }
+        else companies=this.componyRepository.findAll(pageable);
 
-        return this.componyRepository.findAll(pageable).map(
+        return companies.map(
                 c->new CompanyDTO(
                         c.getName(),
                         c.getDesc(),
