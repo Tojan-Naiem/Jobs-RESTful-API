@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+
 @RestController
 @RequestMapping("/api/v1/company")
 public class CompanyController {
@@ -30,9 +32,10 @@ public class CompanyController {
             this.companyService.addCompany(companyDTO,file);
             return ResponseEntity.ok("Successfully added company");
         }
-        catch (Exception e){
+        catch (IOException e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("There's a bgg errorrr"+e.getMessage());
         }
+
 
 
 

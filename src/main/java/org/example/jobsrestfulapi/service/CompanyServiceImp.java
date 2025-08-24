@@ -3,6 +3,7 @@ package org.example.jobsrestfulapi.service;
 
 
 import org.example.jobsrestfulapi.dto.CompanyDTO;
+import org.example.jobsrestfulapi.exception.ResourcesAlreadyFound;
 import org.example.jobsrestfulapi.model.Company;
 import org.example.jobsrestfulapi.repository.CompanyRepository;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,15 @@ public class CompanyServiceImp implements CompanyService {
     }
     public void addCompany(CompanyDTO companyDTO, MultipartFile file) throws IOException {
         String fileName= StringUtils.cleanPath(file.getOriginalFilename());
-        System.out.println("Hi");
+        boolean exist= this.componyRepository.findAll().stream().anyMatch(
+                c->
+            c.getName().equals(companyDTO.getName())
+
+        );
+        if(exist) {
+            System.out.println("hi");
+            throw new ResourcesAlreadyFound("The company already in the system");
+        }
         Company company=new Company(
                 companyDTO.getName(),
                 companyDTO.getDesc(),
@@ -34,7 +43,6 @@ public class CompanyServiceImp implements CompanyService {
         );
         company.setImage(fileName);
         Company savedCompany=this.componyRepository.save(company);
-        System.out.println("Done saving");
         String uploadDir="compony-image/"+savedCompany.getId();
         FileUploadUtil.saveFile(uploadDir,fileName,file);
     }
