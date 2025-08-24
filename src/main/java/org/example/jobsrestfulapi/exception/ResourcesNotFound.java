@@ -1,4 +1,4 @@
-package org.example.joblisting.exceptions;
+package org.example.jobsrestfulapi.exception;
 
 public class ResourcesNotFound extends RuntimeException{
     public ResourcesNotFound(String msg){

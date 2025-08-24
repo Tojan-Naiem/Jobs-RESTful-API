@@ -1,4 +1,4 @@
-package org.example.joblisting.exceptions;
+package org.example.jobsrestfulapi.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
