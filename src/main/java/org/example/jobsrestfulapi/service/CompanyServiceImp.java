@@ -1,0 +1,42 @@
+package org.example.jobsrestfulapi.service;
+
+
+
+import org.example.jobsrestfulapi.dto.CompanyDTO;
+import org.example.jobsrestfulapi.model.Company;
+import org.example.jobsrestfulapi.repository.CompanyRepository;
+import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.List;
+
+@Service
+public class CompanyServiceImp implements CompanyService {
+    private CompanyRepository componyRepository;
+    public CompanyServiceImp(CompanyRepository componyRepository){
+        this.componyRepository=componyRepository;
+    }
+    public List<Company>getCompanies(){
+        return componyRepository.findAll();
+
+    }
+    public void addCompany(CompanyDTO companyDTO, MultipartFile file) throws IOException {
+        String fileName= StringUtils.cleanPath(file.getOriginalFilename());
+        System.out.println("Hi");
+        Company company=new Company(
+                companyDTO.getName(),
+                companyDTO.getDesc(),
+                companyDTO.getCity(),
+                companyDTO.getUrl(),
+                companyDTO.getImage()
+        );
+        company.setImage(fileName);
+        Company savedCompany=this.componyRepository.save(company);
+        System.out.println("Done saving");
+        String uploadDir="compony-image/"+savedCompany.getId();
+        FileUploadUtil.saveFile(uploadDir,fileName,file);
+    }
+
+}

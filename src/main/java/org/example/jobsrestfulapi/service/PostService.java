@@ -1,6 +1,6 @@
 package org.example.jobsrestfulapi.service;
 
-import org.example.joblisting.exceptions.ResourcesNotFound;
+import org.example.jobsrestfulapi.exception.ResourcesNotFound;
 import org.example.jobsrestfulapi.dto.PostDTO;
 import org.example.jobsrestfulapi.model.Post;
 import org.example.jobsrestfulapi.repository.PostRepository;

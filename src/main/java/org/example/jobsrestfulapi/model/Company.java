@@ -5,7 +5,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-@Document(collection = "compony")
+@Document(collection = "Company")
 public class Company {
     @Id
     private String id;
@@ -79,7 +79,7 @@ public class Company {
 
     @Override
     public String toString() {
-        return "Compony{" +
+        return "Company{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", desc='" + desc + '\'' +
