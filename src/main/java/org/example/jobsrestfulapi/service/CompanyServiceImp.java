@@ -6,12 +6,14 @@ import org.example.jobsrestfulapi.dto.CompanyDTO;
 import org.example.jobsrestfulapi.exception.ResourcesAlreadyFound;
 import org.example.jobsrestfulapi.model.Company;
 import org.example.jobsrestfulapi.repository.CompanyRepository;
+import org.example.jobsrestfulapi.service.fileservice.FileUploadUtil;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.List;
 
 @Service
 public class CompanyServiceImp implements CompanyService {
@@ -19,8 +21,17 @@ public class CompanyServiceImp implements CompanyService {
     public CompanyServiceImp(CompanyRepository componyRepository){
         this.componyRepository=componyRepository;
     }
-    public List<Company>getCompanies(){
-        return componyRepository.findAll();
+    public Page<CompanyDTO> getCompanies(Pageable pageable){
+
+        return this.componyRepository.findAll(pageable).map(
+                c->new CompanyDTO(
+                        c.getName(),
+                        c.getDesc(),
+                        c.getCity(),
+                        c.getUrl(),
+                        c.getImage()
+                )
+        );
 
     }
     public void addCompany(CompanyDTO companyDTO, MultipartFile file) throws IOException {

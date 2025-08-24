@@ -1,4 +1,4 @@
-package org.example.jobsrestfulapi.service;
+package org.example.jobsrestfulapi.service.fileservice;
 
 import org.springframework.web.multipart.MultipartFile;
 

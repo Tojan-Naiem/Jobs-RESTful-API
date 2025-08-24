@@ -3,6 +3,9 @@ package org.example.jobsrestfulapi.controller;
 import org.example.jobsrestfulapi.dto.CompanyDTO;
 import org.example.jobsrestfulapi.service.CompanyService;
 import org.example.jobsrestfulapi.service.CompanyServiceImp;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
@@ -20,6 +23,16 @@ public class CompanyController {
         this.companyService=companyService;
     }
 
+    @GetMapping("/")
+    public ResponseEntity getCompanies(
+            @RequestParam(value = "page",defaultValue = "0") int page,
+            @RequestParam(value = "size",defaultValue = "5") int size
+    ){
+        Pageable pageable= PageRequest.of(page,size);
+        Page<CompanyDTO> companyDTOS=this.companyService.getCompanies(pageable);
+        return ResponseEntity.ok(companyDTOS);
+    }
+
     @PostMapping(value = "/" ,consumes = {
             MediaType.APPLICATION_JSON_VALUE,
             MediaType.MULTIPART_FORM_DATA_VALUE
@@ -35,8 +48,6 @@ public class CompanyController {
         catch (IOException e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("There's a bgg errorrr"+e.getMessage());
         }
-
-
 
 
     }
