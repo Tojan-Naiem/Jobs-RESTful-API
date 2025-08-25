@@ -1,5 +1,6 @@
 package org.example.jobsrestfulapi.controller;
 
+import jakarta.validation.Valid;
 import org.example.jobsrestfulapi.dto.PostDTO;
 import org.example.jobsrestfulapi.service.PostService;
 import org.springframework.data.domain.Page;
@@ -40,7 +41,7 @@ public class PostController {
         return ResponseEntity.ok(this.postService.getPostById(post_id));
     }
     @PostMapping("/")
-    public ResponseEntity createPost(@RequestBody PostDTO postDTO){
+    public ResponseEntity createPost(@Valid @RequestBody PostDTO postDTO){
         String id =this.postService.addPost(postDTO);
         URI location= ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("{id}")
@@ -57,7 +58,7 @@ public class PostController {
 
     }
     @PutMapping("/{id}")
-    public ResponseEntity updatePost(@PathVariable(value="id")String post_id,@RequestBody PostDTO postDTO){
+    public ResponseEntity updatePost(@PathVariable(value="id")String post_id,@Valid @RequestBody PostDTO postDTO){
         this.postService.updatePost(post_id,postDTO);
         return ResponseEntity.ok("Successfully updated post");
     }

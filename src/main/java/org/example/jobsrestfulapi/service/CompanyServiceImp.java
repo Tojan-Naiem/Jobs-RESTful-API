@@ -71,7 +71,6 @@ public class CompanyServiceImp implements CompanyService {
 
         );
         if(exist) {
-            System.out.println("hi");
             throw new ResourcesAlreadyFound("The company already in the system");
         }
         Company company=new Company(
@@ -83,7 +82,7 @@ public class CompanyServiceImp implements CompanyService {
         );
         company.setImage(fileName);
         Company savedCompany=this.componyRepository.save(company);
-        String uploadDir="company-image/"+savedCompany.getId();
+        String uploadDir="company-images/"+savedCompany.getId();
         FileUploadUtil.saveFile(uploadDir,fileName,file);
     }
 
@@ -91,7 +90,7 @@ public class CompanyServiceImp implements CompanyService {
         Company company=this.componyRepository.findById(id).orElseThrow(
                 ()->{throw new ResourcesNotFound("Company with id "+id+" not found");}
         );
-        FileUploadUtil.deleteFile("compony-image/"+company.getId(),company.getImage());
+        FileUploadUtil.deleteFile("compony-images/"+company.getId(),company.getImage());
 
         this.componyRepository.delete(company);
     }
@@ -105,7 +104,7 @@ public class CompanyServiceImp implements CompanyService {
         if(!fileName.equals(company.getImage())){
 
 
-            String uploadDir="company-image/"+company.getId();
+            String uploadDir="company-images/"+company.getId();
             String oldFileName=company.getImage();
             FileUploadUtil.saveFile(uploadDir,fileName,file);
             company.setImage(fileName);
