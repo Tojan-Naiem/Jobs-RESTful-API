@@ -1,5 +1,7 @@
 package org.example.jobsrestfulapi.dto;
 
+import org.example.jobsrestfulapi.model.Company;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,12 +10,14 @@ public class PostDTO {
     private String desc;
     private int exp;
     private List<String> techs;
+    private Company company;
 
-    public PostDTO(String profile,String desc,int exp,List<String> techs) {
+    public PostDTO(String profile,String desc,int exp,List<String> techs,Company company) {
         this.profile=profile;
         this.desc=desc;
         this.exp=exp;
         this.techs=techs;
+        this.company=company;
     }
     public PostDTO() {
 
@@ -49,6 +53,14 @@ public class PostDTO {
 
     public void setTechs(List<String> techs) {
         this.techs = techs;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
     }
 
     @Override

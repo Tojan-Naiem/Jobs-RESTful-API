@@ -31,18 +31,20 @@ public class PostService implements IPostService{
                         s.getProfile(),
                         s.getDesc(),
                         s.getExp(),
-                        s.getTechs())
+                        s.getTechs(),
+                        s.getCompany()
+                        )
                 );
     }
     public PostDTO getPostById(String post_id){
         Post post =this.postRepository.findById(post_id)
                 .orElseThrow(()->{throw new ResourcesNotFound("Post not found");
                 });
-        return new PostDTO(post.getProfile(),post.getDesc(),post.getExp(),post.getTechs());
+        return new PostDTO(post.getProfile(),post.getDesc(),post.getExp(),post.getTechs(),post.getCompany());
     }
     public String addPost(PostDTO postDTO){
 
-        Post post=new Post(postDTO.getProfile(),postDTO.getDesc(),postDTO.getExp(),postDTO.getTechs());
+        Post post=new Post(postDTO.getProfile(),postDTO.getDesc(),postDTO.getExp(),postDTO.getTechs(),postDTO.getCompany());
         this.postRepository.save(post);
         return post.getId();
     }
@@ -68,7 +70,7 @@ public class PostService implements IPostService{
         List<Post>posts=mongoTemplate.find(query, Post.class);
 
         List<PostDTO> dtoList = posts.stream()
-                .map(s -> new PostDTO(s.getProfile(), s.getDesc(), s.getExp(), s.getTechs()))
+                .map(s -> new PostDTO(s.getProfile(), s.getDesc(), s.getExp(), s.getTechs(),s.getCompany()))
                 .collect(Collectors.toList());
 
         return new PageImpl<>(dtoList, pageable, total);

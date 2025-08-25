@@ -5,6 +5,8 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.util.List;
+
 @Document(collection = "Company")
 public class Company {
     @Id
@@ -16,6 +18,7 @@ public class Company {
     private String url;
     @Field("image")
     private String image;
+    private List<Post> posts;
 
     public Company(){
 

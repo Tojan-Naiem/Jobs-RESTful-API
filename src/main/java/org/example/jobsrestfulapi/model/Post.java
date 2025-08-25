@@ -2,6 +2,7 @@ package org.example.jobsrestfulapi.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
@@ -15,19 +16,22 @@ public class Post {
     private String desc;
     private int exp;
     private List<String> techs;
+    private Company company;
 
-    public Post(String profile,String desc,int exp,List<String> techs) {
+    public Post(String profile,String desc,int exp,List<String> techs,Company company) {
     this.profile=profile;
     this.desc=desc;
     this.exp=exp;
     this.techs=techs;
+    this.company=company;
     }
-    public Post(String id,String profile,String desc,int exp,List<String> techs) {
+    public Post(String id,String profile,String desc,int exp,List<String> techs,Company company) {
         this.id=id;
         this.profile=profile;
         this.desc=desc;
         this.exp=exp;
         this.techs=techs;
+        this.company=company;
     }
     public Post() {
 
@@ -71,6 +75,14 @@ public class Post {
 
     public void setTechs(List<String> techs) {
         this.techs = this.techs;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
     }
 
     @Override
