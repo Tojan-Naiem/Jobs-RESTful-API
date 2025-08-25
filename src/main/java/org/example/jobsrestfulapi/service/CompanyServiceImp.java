@@ -88,4 +88,13 @@ public class CompanyServiceImp implements CompanyService {
         FileUploadUtil.saveFile(uploadDir,fileName,file);
     }
 
+    public void deleteCompany(String id) throws IOException {
+        Company company=this.componyRepository.findById(id).orElseThrow(
+                ()->{throw new ResourcesNotFound("Company with id "+id+" not found");}
+        );
+        FileUploadUtil.deleteFile("compony-image/"+company.getId(),company.getImage());
+
+        this.componyRepository.delete(company);
+    }
+
 }

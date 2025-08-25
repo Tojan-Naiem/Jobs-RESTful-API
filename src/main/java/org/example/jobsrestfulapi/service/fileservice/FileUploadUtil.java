@@ -25,4 +25,17 @@ public class FileUploadUtil {
 
         }
     }
+    public static void deleteFile(String uploadDir,String fileName) throws IOException {
+        try{
+            Path uploadPath=Paths.get(uploadDir);
+            Path filePath=uploadPath.resolve(fileName);
+            if(Files.exists(uploadPath)){
+                Files.delete(filePath);
+                Files.deleteIfExists(uploadPath);
+            }
+        }
+        catch (IOException e){
+            throw  new IOException("Could not delete file : "+fileName,e);
+        }
+    }
 }

@@ -4,6 +4,7 @@ import org.apache.tomcat.util.compat.Jre21Compat;
 import org.example.jobsrestfulapi.dto.CompanyDTO;
 import org.example.jobsrestfulapi.service.CompanyService;
 import org.example.jobsrestfulapi.service.CompanyServiceImp;
+import org.example.jobsrestfulapi.service.fileservice.FileUploadUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -36,14 +37,11 @@ public class CompanyController {
         Page<CompanyDTO> companyDTOS=this.companyService.getCompanies(pageable,filterKey,filterValue);
         return ResponseEntity.ok(companyDTOS);
     }
-    @GetMapping("/")
+    @GetMapping("/{id}")
     public ResponseEntity getCompany(
-            @RequestParam(required = false) String id,
-            @RequestParam(required = false,value = "name") String nameCompany
+            @PathVariable String id
     ){
-        if(nameCompany!=null&&!nameCompany.isEmpty()){
-            
-        }
+
         return ResponseEntity.ok(this.companyService.getCompany(id));
     }
 
@@ -68,10 +66,12 @@ public class CompanyController {
 
 
     }
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity deleteCompany(){
-//
-//    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteCompany(@PathVariable String id) throws IOException {
+
+        this.companyService.deleteCompany(id);
+        return ResponseEntity.ok("Successfully deleted company");
+    }
 
 
 
