@@ -36,6 +36,19 @@ public class CompanyController {
         Page<CompanyDTO> companyDTOS=this.companyService.getCompanies(pageable,filterKey,filterValue);
         return ResponseEntity.ok(companyDTOS);
     }
+    @GetMapping("/")
+    public ResponseEntity getCompany(
+            @RequestParam(required = false) String id,
+            @RequestParam(required = false,value = "name") String nameCompany
+    ){
+        if(nameCompany!=null&&!nameCompany.isEmpty()){
+            
+        }
+        return ResponseEntity.ok(this.companyService.getCompany(id));
+    }
+
+
+
 
     @PostMapping(value = "/" ,consumes = {
             MediaType.APPLICATION_JSON_VALUE,
@@ -55,6 +68,10 @@ public class CompanyController {
 
 
     }
+//    @DeleteMapping("/{id}")
+//    public ResponseEntity deleteCompany(){
+//
+//    }
 
 
 

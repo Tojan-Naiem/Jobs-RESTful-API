@@ -4,6 +4,7 @@ package org.example.jobsrestfulapi.service;
 
 import org.example.jobsrestfulapi.dto.CompanyDTO;
 import org.example.jobsrestfulapi.exception.ResourcesAlreadyFound;
+import org.example.jobsrestfulapi.exception.ResourcesNotFound;
 import org.example.jobsrestfulapi.model.Company;
 import org.example.jobsrestfulapi.repository.CompanyRepository;
 import org.example.jobsrestfulapi.service.fileservice.FileUploadUtil;
@@ -49,6 +50,19 @@ public class CompanyServiceImp implements CompanyService {
                 )
         );
 
+    }
+
+    public CompanyDTO getCompany(String id){
+        Company company=this.componyRepository.findById(id).orElseThrow(
+                ()->{throw new ResourcesNotFound("Company with id "+id+" not found");}
+        );
+        return new CompanyDTO(
+                company.getName(),
+                company.getDesc(),
+                company.getCity(),
+                company.getUrl(),
+                company.getImage()
+        );
     }
     public void addCompany(CompanyDTO companyDTO, MultipartFile file) throws IOException {
         String fileName= StringUtils.cleanPath(file.getOriginalFilename());
