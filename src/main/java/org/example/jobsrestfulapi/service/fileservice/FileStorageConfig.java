@@ -8,7 +8,7 @@ import java.nio.file.Paths;
 
 public class FileStorageConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry){
-        exposeDirectory("compony-images",registry);
+        exposeDirectory("company-images",registry);
 
     }
     private void exposeDirectory(String dirName,ResourceHandlerRegistry registry){

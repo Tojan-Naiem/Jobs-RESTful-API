@@ -22,7 +22,6 @@ public class CompanyServiceImp implements CompanyService {
     public CompanyServiceImp(CompanyRepository componyRepository){
         this.componyRepository=componyRepository;
     }
-    //{{Jurl}}/company/?filterKey=name&filterValue=exalt
     public Page<CompanyDTO> getCompanies(Pageable pageable,String filterKey,String filterValue){
         Page<Company> companies;
         if(filterKey!=null&&filterValue!=null&&!filterKey.isEmpty()&&!filterValue.isEmpty()){
@@ -84,7 +83,7 @@ public class CompanyServiceImp implements CompanyService {
         );
         company.setImage(fileName);
         Company savedCompany=this.componyRepository.save(company);
-        String uploadDir="compony-image/"+savedCompany.getId();
+        String uploadDir="company-image/"+savedCompany.getId();
         FileUploadUtil.saveFile(uploadDir,fileName,file);
     }
 
@@ -97,4 +96,28 @@ public class CompanyServiceImp implements CompanyService {
         this.componyRepository.delete(company);
     }
 
+    public void updateCompany(String id,CompanyDTO companyDTO,MultipartFile file) throws IOException {
+        Company company=this.componyRepository.findById(id).orElseThrow(
+                ()->{throw new ResourcesNotFound("Company with id "+id+" not found");}
+        );
+        String fileName= StringUtils.cleanPath(file.getOriginalFilename());
+
+        if(!fileName.equals(company.getImage())){
+
+
+            String uploadDir="company-image/"+company.getId();
+            String oldFileName=company.getImage();
+            FileUploadUtil.saveFile(uploadDir,fileName,file);
+            company.setImage(fileName);
+            this.componyRepository.save(company);
+            FileUploadUtil.deleteFile(uploadDir,oldFileName);
+
+
+        }
+        company.setName(companyDTO.getName());
+        company.setDesc(companyDTO.getDesc());
+        company.setCity(companyDTO.getCity());
+        company.setUrl(companyDTO.getUrl());
+        this.componyRepository.save(company);
+    }
 }

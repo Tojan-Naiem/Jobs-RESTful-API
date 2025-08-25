@@ -24,6 +24,7 @@ public class CompanyController {
     public CompanyController(CompanyServiceImp companyService){
         this.companyService=companyService;
     }
+    //{{Jurl}}/company/?filterKey=name&filterValue=exalt
 
     @GetMapping("/")
     public ResponseEntity getCompanies(
@@ -71,6 +72,13 @@ public class CompanyController {
 
         this.companyService.deleteCompany(id);
         return ResponseEntity.ok("Successfully deleted company");
+    }
+
+
+    @PutMapping("/{id}")
+    public ResponseEntity updateCompany(@PathVariable String id,@RequestPart(value = "company") CompanyDTO companyDTO,@RequestPart(value = "image") MultipartFile file) throws IOException {
+        this.companyService.updateCompany(id,companyDTO,file);
+        return ResponseEntity.ok("Successfully updated company");
     }
 
 
