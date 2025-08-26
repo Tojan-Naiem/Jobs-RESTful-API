@@ -42,11 +42,17 @@ public class PostService implements IPostService{
                 });
         return new PostDTO(post.getProfile(),post.getDesc(),post.getExp(),post.getTechs(),post.getCompany());
     }
-    public String addPost(PostDTO postDTO){
+    public Post addPost(PostDTO postDTO){
 
         Post post=new Post(postDTO.getProfile(),postDTO.getDesc(),postDTO.getExp(),postDTO.getTechs(),postDTO.getCompany());
         this.postRepository.save(post);
-        return post.getId();
+        return post;
+    }
+    public Post addPost(PostDTO postDTO,String companyId){
+
+        Post post=new Post(postDTO.getProfile(),postDTO.getDesc(),postDTO.getExp(),postDTO.getTechs(),companyId);
+        this.postRepository.save(post);
+        return post;
     }
     public void updatePost(String post_id,PostDTO postDTO){
         Post post =this.postRepository.findById(post_id)
@@ -96,5 +102,6 @@ public class PostService implements IPostService{
                 )
         );
     }
+
 
 }

@@ -1,9 +1,13 @@
 package org.example.jobsrestfulapi.dto;
 
+import org.example.jobsrestfulapi.exception.ResourcesAlreadyFound;
+import org.example.jobsrestfulapi.exception.ResourcesNotFound;
+import org.example.jobsrestfulapi.model.Post;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CompanyDTO {
@@ -12,18 +16,19 @@ public class CompanyDTO {
     private String city;
     private String url;
     private String image;
-    private List<PostDTO>postDTOS;
+    private List<PostDTO>posts;
 
     public CompanyDTO(){
 
     }
     public CompanyDTO(String name, String desc,
-                   String city, String url, String image){
+                   String city, String url, String image,List<PostDTO> posts){
         this.name = name;
         this.desc=desc;
         this.city=city;
         this.url=url;
         this.image=image;
+        this.posts=posts;
     }
 
 
@@ -66,6 +71,26 @@ public class CompanyDTO {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public List<PostDTO> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<PostDTO> posts) {
+        this.posts = posts;
+    }
+    public void addPost(PostDTO post){
+        if(this.posts==null){
+            this.posts=new ArrayList<>();
+        }
+
+        this.posts.add(post);
+    }
+    public void removePost(PostDTO post){
+        if(this.posts!=null){
+            this.posts.remove(post);
+        }
     }
 
     @Override

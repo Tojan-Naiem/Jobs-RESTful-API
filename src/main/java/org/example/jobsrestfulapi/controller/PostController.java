@@ -2,6 +2,7 @@ package org.example.jobsrestfulapi.controller;
 
 import jakarta.validation.Valid;
 import org.example.jobsrestfulapi.dto.PostDTO;
+import org.example.jobsrestfulapi.model.Post;
 import org.example.jobsrestfulapi.service.PostService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -42,10 +43,10 @@ public class PostController {
     }
     @PostMapping("/")
     public ResponseEntity createPost(@Valid @RequestBody PostDTO postDTO){
-        String id =this.postService.addPost(postDTO);
+        Post post =this.postService.addPost(postDTO);
         URI location= ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("{id}")
-                .buildAndExpand(id)
+                .buildAndExpand(post.getId())
                 .toUri();
         return ResponseEntity.created(location)
                 .build();

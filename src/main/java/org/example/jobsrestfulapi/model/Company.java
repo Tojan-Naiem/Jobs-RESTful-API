@@ -90,6 +90,9 @@ public class Company {
     }
 
     public List<Post> getPosts() {
+        if(this.posts==null){
+            this.posts=new ArrayList<>();
+        }
         return posts;
     }
 
@@ -100,8 +103,11 @@ public class Company {
         if(this.posts==null){
             this.posts=new ArrayList<>();
         }
-        boolean existPost=this.posts.stream().anyMatch(p ->p.getId().equals(post.getId()) );
-        if(existPost)throw new ResourcesAlreadyFound("Post already exists");
+        else {
+            boolean existPost=this.posts.stream().anyMatch(p ->p.getId().equals(post.getId()) );
+            if(existPost)throw new ResourcesAlreadyFound("Post already exists");
+        }
+
         this.posts.add(post);
     }
     public void removePost(Post post){

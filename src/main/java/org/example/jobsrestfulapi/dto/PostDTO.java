@@ -1,6 +1,7 @@
 package org.example.jobsrestfulapi.dto;
 
 import org.example.jobsrestfulapi.model.Company;
+import org.example.jobsrestfulapi.model.Post;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,6 +62,15 @@ public class PostDTO {
 
     public void setCompany(String companyId) {
         this.companyId = companyId;
+    }
+    public static PostDTO fromEntity(Post post){
+        return new PostDTO(
+                post.getProfile(),
+                post.getDesc(),
+                post.getExp(),
+                post.getTechs(),
+                post.getCompany()
+        );
     }
 
     @Override

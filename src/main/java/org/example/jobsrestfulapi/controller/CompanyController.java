@@ -1,8 +1,10 @@
 package org.example.jobsrestfulapi.controller;
 
+import jakarta.validation.Valid;
 import org.apache.tomcat.util.compat.Jre21Compat;
 import org.example.jobsrestfulapi.dto.CompanyDTO;
 import org.example.jobsrestfulapi.dto.PostDTO;
+import org.example.jobsrestfulapi.model.Post;
 import org.example.jobsrestfulapi.service.CompanyService;
 import org.example.jobsrestfulapi.service.CompanyServiceImp;
 import org.example.jobsrestfulapi.service.PostService;
@@ -16,8 +18,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -101,6 +105,24 @@ public class CompanyController {
         Page<PostDTO> posts=this.postService.getPostsByCompanyID(companyId,pageable);
         return ResponseEntity.ok(posts);
     }
+
+
+    @PostMapping("/{companyId}/posts/")
+    public ResponseEntity createPostCompany(
+            @PathVariable String companyId,
+            @Valid @RequestBody PostDTO postDTO
+    )
+    {
+        Post post =this.postService.addPost(postDTO,companyId);
+        this.companyService.savePostIntoCompany(post,companyId);
+        URI location= ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/api/v1/post/{id}")
+                .buildAndExpand(post.getId())
+                .toUri();
+        return ResponseEntity.created(location).build();
+    }
+
+
 
 
 
