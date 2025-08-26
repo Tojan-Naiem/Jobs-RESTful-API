@@ -16,22 +16,22 @@ public class Post {
     private String desc;
     private int exp;
     private List<String> techs;
-    private Company company;
+    private String companyID;
 
-    public Post(String profile,String desc,int exp,List<String> techs,Company company) {
+    public Post(String profile,String desc,int exp,List<String> techs,String companyID) {
     this.profile=profile;
     this.desc=desc;
     this.exp=exp;
     this.techs=techs;
-    this.company=company;
+    this.companyID=companyID;
     }
-    public Post(String id,String profile,String desc,int exp,List<String> techs,Company company) {
+    public Post(String id,String profile,String desc,int exp,List<String> techs,String companyID) {
         this.id=id;
         this.profile=profile;
         this.desc=desc;
         this.exp=exp;
         this.techs=techs;
-        this.company=company;
+        this.companyID=companyID;
     }
     public Post() {
 
@@ -77,12 +77,12 @@ public class Post {
         this.techs = this.techs;
     }
 
-    public Company getCompany() {
-        return company;
+    public String getCompany() {
+        return companyID;
     }
 
-    public void setCompany(Company company) {
-        this.company = company;
+    public void setCompany(String companyID) {
+        this.companyID = companyID;
     }
 
     @Override

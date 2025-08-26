@@ -1,10 +1,14 @@
 package org.example.jobsrestfulapi.model;
 
+import jakarta.validation.constraints.NotBlank;
+import org.example.jobsrestfulapi.exception.ResourcesAlreadyFound;
+import org.example.jobsrestfulapi.exception.ResourcesNotFound;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Document(collection = "Company")
@@ -12,8 +16,13 @@ public class Company {
     @Id
     private String id;
     @Indexed(unique = true)
+    @NotBlank(message = "Company name is required")
     private String name;
+    @NotBlank(message = "Description is required")
+
     private String desc;
+    @NotBlank(message = "City  is required")
+
     private String city;
     private String url;
     @Field("image")
@@ -78,6 +87,29 @@ public class Company {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public List<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
+    }
+    public void addPost(Post post){
+        if(this.posts==null){
+            this.posts=new ArrayList<>();
+        }
+        boolean existPost=this.posts.stream().anyMatch(p ->p.getId().equals(post.getId()) );
+        if(existPost)throw new ResourcesAlreadyFound("Post already exists");
+        this.posts.add(post);
+    }
+    public void removePost(Post post){
+        if(this.posts!=null){
+            boolean existPost=this.posts.stream().anyMatch(p ->p.getId().equals(post.getId()) );
+            if(!existPost)throw new ResourcesNotFound("Post not found");
+            this.posts.remove(post);
+        }
     }
 
     @Override

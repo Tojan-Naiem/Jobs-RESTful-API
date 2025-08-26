@@ -10,14 +10,14 @@ public class PostDTO {
     private String desc;
     private int exp;
     private List<String> techs;
-    private Company company;
+    private String companyId;
 
-    public PostDTO(String profile,String desc,int exp,List<String> techs,Company company) {
+    public PostDTO(String profile,String desc,int exp,List<String> techs,String companyId) {
         this.profile=profile;
         this.desc=desc;
         this.exp=exp;
         this.techs=techs;
-        this.company=company;
+        this.companyId=companyId;
     }
     public PostDTO() {
 
@@ -55,12 +55,12 @@ public class PostDTO {
         this.techs = techs;
     }
 
-    public Company getCompany() {
-        return company;
+    public String getCompany() {
+        return companyId;
     }
 
-    public void setCompany(Company company) {
-        this.company = company;
+    public void setCompany(String companyId) {
+        this.companyId = companyId;
     }
 
     @Override
