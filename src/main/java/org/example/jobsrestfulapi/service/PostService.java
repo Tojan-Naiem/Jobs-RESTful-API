@@ -83,4 +83,18 @@ public class PostService implements IPostService{
 
     }
 
+    public Page<PostDTO>getPostsByCompanyID(String companyID,Pageable pageable){
+        Page<Post>posts=this.postRepository.findByCompanyID(pageable,companyID);
+        return posts.map(
+                s->new PostDTO(
+                        s.getProfile(),
+                        s.getDesc(),
+                        s.getExp(),
+                        s.getTechs(),
+                        s.getCompany()
+
+                )
+        );
+    }
+
 }

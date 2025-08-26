@@ -2,8 +2,10 @@ package org.example.jobsrestfulapi.controller;
 
 import org.apache.tomcat.util.compat.Jre21Compat;
 import org.example.jobsrestfulapi.dto.CompanyDTO;
+import org.example.jobsrestfulapi.dto.PostDTO;
 import org.example.jobsrestfulapi.service.CompanyService;
 import org.example.jobsrestfulapi.service.CompanyServiceImp;
+import org.example.jobsrestfulapi.service.PostService;
 import org.example.jobsrestfulapi.service.fileservice.FileUploadUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,13 +18,18 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/company")
 public class CompanyController {
     private CompanyServiceImp companyService;
-    public CompanyController(CompanyServiceImp companyService){
+    private PostService postService;
+
+
+    public CompanyController(CompanyServiceImp companyService,PostService postService){
         this.companyService=companyService;
+        this.postService=postService;
     }
     //{{Jurl}}/company/?filterKey=name&filterValue=exalt
 
@@ -80,7 +87,20 @@ public class CompanyController {
         this.companyService.updateCompany(id,companyDTO,file);
         return ResponseEntity.ok("Successfully updated company");
     }
+// company posts
 
+
+    @GetMapping("/{companyId}/posts")
+    public ResponseEntity getCompanyPosts(
+            @PathVariable String companyId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size
+    ){
+        this.companyService.getCompany(companyId);
+        Pageable pageable=PageRequest.of(page,size);
+        Page<PostDTO> posts=this.postService.getPostsByCompanyID(companyId,pageable);
+        return ResponseEntity.ok(posts);
+    }
 
 
 
