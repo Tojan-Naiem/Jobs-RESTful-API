@@ -57,7 +57,7 @@ public class AuthController {
         user.setEmail(signUpDTO.getEmail());
         user.setPassword(passwordEncoder.encode(signUpDTO.getPassword()));
 
-        Role role=roleRepository.findByName("ROLE_ADMIN").orElseThrow(
+        Role role=roleRepository.findByName("ADMIN").orElseThrow(
                 ()->new ResourcesNotFound("Role admin is not found")
         );
         user.setRoles(Collections.singleton(role));
