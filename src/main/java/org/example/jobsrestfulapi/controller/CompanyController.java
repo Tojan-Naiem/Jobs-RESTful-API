@@ -59,8 +59,6 @@ public class CompanyController {
     }
 
 
-
-
     @PostMapping(value = "/" ,consumes = {
             MediaType.MULTIPART_FORM_DATA_VALUE
     })
@@ -71,16 +69,15 @@ public class CompanyController {
         try{
             MultipartFile file=null;
             if(fileOptional.isPresent()&&!fileOptional.get().isEmpty()) file=fileOptional.get();
-
             this.companyService.addCompany(companyDTO,file);
             return ResponseEntity.ok("Successfully added company");
         }
         catch (IOException e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("There's a bgg errorrr"+e.getMessage());
         }
-
-
     }
+
+
     @DeleteMapping("/{id}")
     public ResponseEntity deleteCompany(@PathVariable String id) throws IOException {
 
