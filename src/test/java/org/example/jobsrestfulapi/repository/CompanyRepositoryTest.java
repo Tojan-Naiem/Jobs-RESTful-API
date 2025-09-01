@@ -33,11 +33,11 @@ class CompanyRepositoryTest {
         );
 
     }
-    @AfterEach
-    public  void tearDown(){
-        companyRepository.deleteAllByNameIn(List.of("testName","testName2","testName3"));
-
-    }
+//    @AfterEach
+//    public  void tearDown(){
+//        companyRepository.deleteAllByNameIn(List.of("testName","testName2","testName3"));
+//
+//    }
 
 
 

@@ -40,6 +40,16 @@ public class Company {
         this.url=url;
         this.image=image;
     }
+    public Company(String name, String desc,
+                   String city, String url, String image,List<Post>posts){
+        this.name = name;
+        this.desc=desc;
+        this.city=city;
+        this.url=url;
+        this.image=image;
+        this.posts=posts;
+    }
+
 
     public String getId() {
         return id;
