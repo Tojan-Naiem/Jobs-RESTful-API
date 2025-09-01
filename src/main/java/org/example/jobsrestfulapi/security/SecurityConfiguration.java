@@ -44,7 +44,7 @@ public class SecurityConfiguration {
                  .authorizeHttpRequests(
                  (auth)->auth.requestMatchers("/api/v1/auth/**").permitAll()
                          .requestMatchers(HttpMethod.GET,"/api/v1/**").permitAll()
-                         .anyRequest().authenticated()
+                         .anyRequest().permitAll()
          );
          return http.build();
     }

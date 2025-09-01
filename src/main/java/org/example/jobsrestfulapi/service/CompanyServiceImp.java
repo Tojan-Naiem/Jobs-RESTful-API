@@ -59,7 +59,7 @@ public class CompanyServiceImp implements CompanyService {
        return convertToDTO(company);
     }
     public void addCompany(CompanyDTO companyDTO, MultipartFile file) throws IOException {
-        String fileName= StringUtils.cleanPath(file.getOriginalFilename());
+
         boolean exist= this.componyRepository.findAll().stream().anyMatch(
                 c->
             c.getName().equals(companyDTO.getName())
@@ -75,10 +75,19 @@ public class CompanyServiceImp implements CompanyService {
                 companyDTO.getUrl(),
                 companyDTO.getImage()
         );
-        company.setImage(fileName);
-        Company savedCompany=this.componyRepository.save(company);
-        String uploadDir="company-images/"+savedCompany.getId();
-        FileUploadUtil.saveFile(uploadDir,fileName,file);
+        if(file==null){
+           company.setImage(null);
+            this.componyRepository.save(company);
+        }
+        else {
+            String fileName= StringUtils.cleanPath(file.getOriginalFilename());
+            company.setImage(fileName);
+            Company savedCompany=this.componyRepository.save(company);
+            String uploadDir="company-images/"+savedCompany.getId();
+            FileUploadUtil.saveFile(uploadDir,fileName,file);
+        }
+
+
     }
 
     public void deleteCompany(String id) throws IOException {

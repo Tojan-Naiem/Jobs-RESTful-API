@@ -23,6 +23,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.io.IOException;
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/company")
@@ -61,14 +62,16 @@ public class CompanyController {
 
 
     @PostMapping(value = "/" ,consumes = {
-            MediaType.APPLICATION_JSON_VALUE,
             MediaType.MULTIPART_FORM_DATA_VALUE
     })
-    public ResponseEntity addCompany(@RequestPart(value = "company") CompanyDTO companyDTO, @RequestPart(value = "image") MultipartFile file){
-        System.out.println("I'm in");
+    public ResponseEntity addCompany(
+            @RequestPart(value = "company") CompanyDTO companyDTO,
+            @RequestPart(value = "image",required = false) Optional<MultipartFile> fileOptional){
 
         try{
-            System.out.println("I'm in");
+            MultipartFile file=null;
+            if(fileOptional.isPresent()&&!fileOptional.get().isEmpty()) file=fileOptional.get();
+
             this.companyService.addCompany(companyDTO,file);
             return ResponseEntity.ok("Successfully added company");
         }
