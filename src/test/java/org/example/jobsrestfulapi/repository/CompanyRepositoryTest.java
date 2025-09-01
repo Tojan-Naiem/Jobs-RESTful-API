@@ -1,6 +1,7 @@
 package org.example.jobsrestfulapi.repository;
 
 import org.example.jobsrestfulapi.model.Company;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -18,12 +20,10 @@ import static org.junit.jupiter.api.Assertions.*;
 class CompanyRepositoryTest {
 
     @Autowired
-    private CompanyRepository companyRepository;
+    private  CompanyRepository companyRepository;
 
     @BeforeEach
-    @AfterEach
     public void setUP(){
-        companyRepository.deleteAll();
         companyRepository.saveAll(
                 List.of(
                         new Company("testName","TestDesc","testCity","testUrl","testImage"),
@@ -33,6 +33,13 @@ class CompanyRepositoryTest {
         );
 
     }
+    @AfterEach
+    public  void tearDown(){
+        companyRepository.deleteAllByNameIn(List.of("testName","testName2","testName3"));
+
+    }
+
+
 
     @Test
     public void testFindByNameContainingIgnoreCase(){
